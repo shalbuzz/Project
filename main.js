@@ -100,39 +100,46 @@ const fetchData = ()=>{
         });
     };
     const handleClear = () => {
+        
         const popup = document.querySelector('.popup');
-        popup.classList.add('show');
-    };
+        const overlay = document.querySelector('.overlay');
+        popup.style.display = 'block';
+        overlay.style.display = 'block';
     
-    
-    const confirmClear = () => {
-        fetch(url, {
-            method: 'DELETE',
-        })
-            .then(() => {
-                fetchData();
-                document.querySelector('.popup').classList.remove('show');
+        
+        document.querySelector('.confirm-btn').addEventListener('click', () => {
+            fetch(url, {
+                method: 'DELETE',
             })
-            .catch((error) => {
-                console.error('Failed to clear data', error);
-            });
+                .then(() => {
+                    const transactionList = document.querySelector('.container2');
+                    transactionList.innerHTML = ''; 
+                    popup.style.display = 'none'; 
+                    overlay.style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error('Failed to clear data', error);
+                });
+        });
+    
+       
+        document.querySelector('.cancel-btn').addEventListener('click', () => {
+            popup.style.display = 'none'; 
+            overlay.style.display = 'none';
+        });
     };
     
     
-    const cancelClear = () => {
-        document.querySelector('.popup').classList.remove('show');
-    };
     
     
-    document.querySelector('.clear-btn').addEventListener('click', handleClear);
     
     
-    document.querySelector('.confirm-btn').addEventListener('click', confirmClear);
-    document.querySelector('.cancel-btn').addEventListener('click', cancelClear);
+    
+    
     
     document.querySelector('.search-btn').addEventListener('click', fetchData);
     document.querySelector('.add-btn').addEventListener('click',addData);
-    
+    document.querySelector('.clear-btn').addEventListener('click', handleClear);
 
 
 
